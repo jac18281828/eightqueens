@@ -2,9 +2,8 @@
 
 set -e
 
-TAG='cairns_gemini_match:1.0'
+TAG='eightqueens:1.0.0'
 
 docker rmi -f ${TAG}
 
 docker build --tag ${TAG} .
-

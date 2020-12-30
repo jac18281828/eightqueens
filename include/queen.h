@@ -1,17 +1,28 @@
 #pragma once
 
+#include <bitset>
+#include <vector>
+
 namespace queen {
 
-    using board_t = unsigned long;
+    const int MAX_QUEEN = 8;
 
-    const int WIDTH = 8;
+    const int WIDTH = MAX_QUEEN;
 
-    const int HEIGHT = 8;
+    const int HEIGHT = MAX_QUEEN;
 
-    inline board_t project(int x, int y) {
-        const auto offset = y*WIDTH + x;
+    const int N_SQUARE = WIDTH*HEIGHT;
 
-        return 1UL<<offset;
+    using board_t = std::bitset<N_SQUARE>;
+
+    using position_t = std::vector<int>;
+
+    inline int offset(int x, int y) {
+        return y*WIDTH + x;
+    }
+
+    inline unsigned long project(int x, int y) {
+        return 1UL<<offset(x, y);
     }
 
 }

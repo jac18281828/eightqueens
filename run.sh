@@ -2,6 +2,8 @@
 
 set -e
 
-docker build .
+TAG='eightqueens:1.0.0'
 
-docker run -i --rm
+docker build --tag ${TAG} .
+
+docker run -i --rm ${TAG}

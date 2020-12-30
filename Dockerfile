@@ -1,12 +1,13 @@
 FROM debian:10 AS builder
 
 RUN apt update && \
-    apt -y install build-essential g++ cmake googletest python3
+    apt -y install build-essential g++ cmake googletest
 
 WORKDIR /build
 
 COPY CMakeLists.txt .
 COPY src src/
+COPY include include/
 COPY test test/
 
 # build googletest
@@ -29,3 +30,8 @@ RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 ENV LANG=C.UTF-8 \
     TZ=UTC
 
+WORKDIR /queen
+
+COPY --from=builder /build/release/eightqueens .
+
+ENTRYPOINT /queen/eightqueens

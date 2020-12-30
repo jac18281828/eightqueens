@@ -5,14 +5,14 @@ project (eightqueen LANGUAGES CXX VERSION 1.0.0)
 
 add_compile_options(-std=c++17)
 
-set(HEADER_FILES include/board.h include/queen.h)
+set(HEADER_FILES include/board.h include/queen.h include/safe.h)
 set(SRC src/main.cc)
 
 find_package(Threads REQUIRED)
 
-#add_executable(gemmatch ${HEADER_FILES} ${SRC} src/main.cc)
-
-#target_link_libraries(gemmatch m)
+add_executable(eightqueens ${HEADER_FILES} ${SRC} src/main.cc)
+target_include_directories(eightqueens PRIVATE include)
+target_link_libraries(eightqueens m)
 
 enable_testing()
 
@@ -23,4 +23,14 @@ add_executable(viewtest test/viewtest.cc)
 target_include_directories(viewtest PRIVATE include ${GTEST_INCLUDE})
 target_link_libraries(viewtest -L../gtest/lib gtest gtest_main pthread m)
 gtest_add_tests(viewtest test test/viewtest.cc)
+
+add_executable(queentest test/queentest.cc)
+target_include_directories(queentest PRIVATE include ${GTEST_INCLUDE})
+target_link_libraries(queentest -L../gtest/lib gtest gtest_main pthread m)
+gtest_add_tests(queentest test test/queentest.cc)
+
+add_executable(boardtest test/boardtest.cc)
+target_include_directories(boardtest PRIVATE include ${GTEST_INCLUDE})
+target_link_libraries(boardtest -L../gtest/lib gtest gtest_main pthread m)
+gtest_add_tests(boardtest test test/boardtest.cc)
 
