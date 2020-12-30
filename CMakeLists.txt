@@ -1,0 +1,26 @@
+cmake_minimum_required(VERSION 3.9)
+set(CMAKE_VERBOSE_MAKEFILE on)
+SET(CMAKE_CXX_FLAGS_RELEASE -O3)
+project (eightqueen LANGUAGES CXX VERSION 1.0.0)
+
+add_compile_options(-std=c++17)
+
+set(HEADER_FILES include/board.h include/queen.h)
+set(SRC src/main.cc)
+
+find_package(Threads REQUIRED)
+
+#add_executable(gemmatch ${HEADER_FILES} ${SRC} src/main.cc)
+
+#target_link_libraries(gemmatch m)
+
+enable_testing()
+
+set(GTEST_INCLUDE /usr/src/googletest/googletest/include)
+
+include(GoogleTest)
+add_executable(viewtest test/viewtest.cc)
+target_include_directories(viewtest PRIVATE include ${GTEST_INCLUDE})
+target_link_libraries(viewtest -L../gtest/lib gtest gtest_main pthread m)
+gtest_add_tests(viewtest test test/viewtest.cc)
+
