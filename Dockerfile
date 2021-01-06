@@ -14,7 +14,8 @@ COPY test test/
 RUN cmake -H/usr/src/googletest -Bgtest -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_VERBOSE_MAKEFILE=on "-GUnix Makefiles" && (cd /build/gtest && make -j all)
 
 # This is the builder!
-RUN cp /build/gtest/googlemock/gtest/*.a /usr/lib
+RUN cp -v /build/gtest/googlemock/*.a /usr/lib
+RUN cp -v /build/gtest/googlemock/gtest/*.a /usr/lib
 
 # build eightqueens
 RUN cmake -H. -Brelease -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_VERBOSE_MAKEFILE=on "-GUnix Makefiles" && (cd release && make -j all test)

@@ -15,19 +15,20 @@ jobs:
     - name: Install dependencies
       run:  |
             sudo apt update
-            sudo apt -y build-essential g++ cmake googletest
+            sudo apt -y install build-essential g++ cmake googletest libclthreads-dev
 
     - name: Install googletest
       run: |
-           sudo cmake -H/usr/src/googletest -B${{github.workspace}}/gtest -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_VERBOSE_MAKEFILE=on "-GUnix Makefiles" && (cd {{github.workspace}}/gtest)
-           cmake --build {{github.workspace}}/gtest --config ${BUILD_TYPE}
-           sudo cp {{github.workspace}}/gtest/*.a /usr/lib
+           cmake -H/usr/src/googletest -B${{github.workspace}}/gtest -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_VERBOSE_MAKEFILE=on "-GUnix Makefiles" 
+           cmake --build ${{github.workspace}}/gtest --config ${BUILD_TYPE}
+           sudo cp ${{github.workspace}}/gtest/googlemock/*.a /usr/lib
+           sudo cp ${{github.workspace}}/gtest/googlemock/gtest/*.a /usr/lib           
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{github.workspace}}/build
 
     - name: Configure CMake
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_VERBOSE_MAKEFILE=on "-GUnix Makefiles"
+      run: cmake -B${{github.workspace}}/build -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_VERBOSE_MAKEFILE=on "-GUnix Makefiles"
 
     - name: Build
       working-directory: ${{github.workspace}}/build
