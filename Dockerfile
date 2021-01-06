@@ -11,14 +11,27 @@ COPY include include/
 COPY test test/
 
 # build googletest
-RUN cmake -H/usr/src/googletest -Bgtest -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_VERBOSE_MAKEFILE=on "-GUnix Makefiles" && (cd /build/gtest && make -j all)
+RUN cmake -H/usr/src/googletest -B/build/gtest -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_VERBOSE_MAKEFILE=on "-GUnix Makefiles"
+RUN cmake --build /build/gtest --config RELEASE
 
-# This is the builder!
+WORKDIR /build/gtest
+RUN ctest -C RELEASE
+
+WORKDIR /build
+
+# This is the builder! copy at will
 RUN cp -v /build/gtest/googlemock/*.a /usr/lib
 RUN cp -v /build/gtest/googlemock/gtest/*.a /usr/lib
 
 # build eightqueens
-RUN cmake -H. -Brelease -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_VERBOSE_MAKEFILE=on "-GUnix Makefiles" && (cd release && make -j all test)
+RUN cmake -H. -Brelease -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_VERBOSE_MAKEFILE=on "-GUnix Makefiles"
+RUN cmake --build /build/release --config RELEASE
+
+WORKDIR /build/release
+
+RUN ctest -C RELEASE
+
+WORKDIR /build
 
 RUN ls -l release
 

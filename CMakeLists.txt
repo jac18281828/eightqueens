@@ -15,7 +15,7 @@ add_executable(eightqueens ${HEADER_FILES} ${SRC} src/main.cc)
 target_include_directories(eightqueens PRIVATE include)
 target_link_libraries(eightqueens m)
 
-enable_testing()
+include(CTest)
 
 set(GTEST_INCLUDE /usr/src/googletest/googletest/include)
 

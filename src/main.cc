@@ -22,15 +22,19 @@ public:
         for(int j=0; j<board.size(); ++j) {
 
             const auto qpos = board[j];
-        
-            for(int i=0; i<qpos-1; ++i) {
-                std::cout << "- ";
-            }
-        
-            std::cout << "* ";
-        
-            for(int i=qpos; i<queen::WIDTH; ++i) {
-                std::cout << "- ";
+
+            if(qpos == 0) {
+                std::cout << "* - - - - - - -";
+            } else {
+                for(int i=0; i<qpos-1; ++i) {
+                    std::cout << "- ";
+                }
+                
+                std::cout << "* ";
+                
+                for(int i=qpos; i<queen::WIDTH; ++i) {
+                    std::cout << "- ";
+                }
             }
         
             std::cout << std::endl;
