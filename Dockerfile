@@ -16,7 +16,7 @@ RUN cmake -H/usr/src/googletest -Bgtest -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_VERBO
 # This is the builder!
 RUN cp /build/gtest/googlemock/gtest/*.a /usr/lib
 
-#build gemmatch
+# build eightqueens
 RUN cmake -H. -Brelease -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_VERBOSE_MAKEFILE=on "-GUnix Makefiles" && (cd release && make -j all test)
 
 RUN ls -l release
