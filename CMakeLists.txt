@@ -11,7 +11,7 @@ set(SRC src/main.cc)
 
 find_package(Threads REQUIRED)
 
-add_executable(eightqueens ${HEADER_FILES} ${SRC} src/main.cc)
+add_executable(eightqueens ${HEADER_FILES} ${SRC})
 target_include_directories(eightqueens PRIVATE include)
 target_link_libraries(eightqueens m)
 
