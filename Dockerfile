@@ -1,8 +1,10 @@
 FROM debian:stable-slim AS builder
-
-RUN apt update && \
-    apt -y install build-essential g++ cmake googletest
+RUN export DEBIAN_FRONTEND=noninteractive && \
+    apt update && \
+        apt install -y -q --no-install-recommends \
+        build-essential cmake googletest
 RUN apt clean
+RUN rm -rf /var/lib/apt/lists/*
 
 WORKDIR /build
 
@@ -10,6 +12,8 @@ COPY CMakeLists.txt .
 COPY src src/
 COPY include include/
 COPY test test/
+
+ENV MAKEFLAGS=-j8
 
 # build googletest
 RUN cmake -H/usr/src/googletest -B/build/gtest -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_VERBOSE_MAKEFILE=on "-GUnix Makefiles"
