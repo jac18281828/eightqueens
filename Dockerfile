@@ -1,7 +1,8 @@
-FROM debian:10 AS builder
+FROM debian:stable-slim AS builder
 
 RUN apt update && \
     apt -y install build-essential g++ cmake googletest
+RUN apt clean
 
 WORKDIR /build
 
@@ -20,8 +21,7 @@ RUN ctest -C RELEASE
 WORKDIR /build
 
 # This is the builder! copy at will
-RUN cp -v /build/gtest/googlemock/*.a /usr/lib
-RUN cp -v /build/gtest/googlemock/gtest/*.a /usr/lib
+RUN cp -v /build/gtest/lib/*.a /usr/lib
 
 # build eightqueens
 RUN cmake -H. -Brelease -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_VERBOSE_MAKEFILE=on "-GUnix Makefiles"
@@ -33,16 +33,7 @@ RUN ctest -C RELEASE
 
 WORKDIR /build
 
-RUN ls -l release
-
-FROM debian:10
-
-# use UTC time
-RUN rm -f /etc/localtime
-RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime
-
-ENV LANG=C.UTF-8 \
-    TZ=UTC
+FROM debian:stable-slim
 
 WORKDIR /queen
 

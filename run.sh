@@ -2,8 +2,8 @@
 
 set -e
 
-TAG='eightqueens:1.0.0'
+VERSION=$(date +"%M%d%y")
+PROJECT=jac18281828/eightqueens
 
-docker build --tag ${TAG} .
-
-docker run -i --rm ${TAG}
+docker build --progress plain . -t ${PROJECT}:${VERSION} && \
+    docker run -i --rm ${PROJECT}:${VERSION}
